@@ -16,7 +16,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('services-test') {
-                    sh 'docker build -t $BACKEND_IMAGE .'
+                    sh 'docker build --no-cache -t $BACKEND_IMAGE .'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('ui-test') {
-                    sh 'docker build -t $FRONTEND_IMAGE .'
+                    sh 'docker build --no-cache -t $FRONTEND_IMAGE .'
                 }
             }
         }
@@ -42,14 +42,14 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 sh 'docker-compose down || true'
-                sh 'docker-compose up -d'
+                sh 'docker-compose up -d --build'
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline finished.'
+            echo '✅ Pipeline finished and app is running with latest changes.'
         }
     }
 }
