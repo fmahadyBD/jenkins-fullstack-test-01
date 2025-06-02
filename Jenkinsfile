@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url:  'https://github.com/fmahadyBD/jenkins-fullstack-test-01.git'
+                git branch: 'main', url: 'https://github.com/fmahadyBD/jenkins-fullstack-test-01.git'
             }
         }
 
@@ -26,6 +26,16 @@ pipeline {
                 dir('ui-test') {
                     sh 'docker build -t $FRONTEND_IMAGE .'
                 }
+            }
+        }
+
+        stage('Clean Up Old Containers') {
+            steps {
+                sh '''
+                    docker rm -f ui-test-container || true
+                    docker rm -f services-test-container || true
+                    docker rm -f jenkins-fullstack-test-01_postgres_1 || true
+                '''
             }
         }
 
