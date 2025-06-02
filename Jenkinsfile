@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/fmahadyBD/jenkins-fullstack-test-01.git'
+                git branch: 'main', url:  'https://github.com/fmahadyBD/jenkins-fullstack-test-01.git'
             }
         }
 
